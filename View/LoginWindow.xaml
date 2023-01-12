@@ -1,0 +1,52 @@
+﻿<Window x:Class="KatalogFilm.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KatalogFilm.View"
+        xmlns:vm="clr-namespace:KatalogFilm.ViewModel"
+        xmlns:helper="clr-namespace:KatalogFilm.ViewModel.Helper"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Login" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <helper:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.Visibility>
+        <Binding Path="IsLoginVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibilityConverter}"/>
+    </Window.Visibility>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" BorderBrush="Gray"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+            <TextBlock Text="Username" Margin="5"/>
+            <TextBox Text="{Binding Username}" Margin="5"/>
+            <TextBlock Text="Password" Margin="5"/>
+            <TextBox Text="{Binding Password}" Margin="5"/>
+                <Button Content="Login" Padding="1" HorizontalAlignment="Right" Margin="3,3,3,3" Command="{Binding LoginCommand}"/>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding ErrorMessage}" Margin="5" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Window>
