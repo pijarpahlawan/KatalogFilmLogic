@@ -11,5 +11,10 @@ namespace KatalogFilm.View
         {
             InitializeComponent();
         }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

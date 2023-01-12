@@ -8,31 +8,89 @@
         xmlns:vm="clr-namespace:KatalogFilm.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="900"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent">
+
     <Window.Resources>
         <helper:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Window.Visibility>
         <Binding Path="IsMainVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibilityConverter}"/>
     </Window.Visibility>
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="ID"/>
-                <TextBlock Text="{Binding AccountDetails.Id}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Nama"/>
-                <TextBlock Text="{Binding AccountDetails.Name}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Username"/>
-                <TextBlock Text="{Binding AccountDetails.Username}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Dewasa"/>
-                <TextBlock Text="{Binding AccountDetails.IncludeAdult}"/>
-            </StackPanel>
-        </StackPanel>
+        <!--//window bordir//-->
+        <Border Background="#191930"
+                CornerRadius="20"/>
+
+        <!--base grid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="228"/>
+                <ColumnDefinition Width="672"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Navigasi -->
+            <Border/>
+            <Grid HorizontalAlignment="Left"
+                  Width="228">
+                <Border Background="#232439"
+                        CornerRadius="20,0,0,20">
+                    <Image Source="..\Image\pngwing.com (1).png"
+                           Height="70"
+                           Margin="0,0,0,500"/>
+                </Border>
+                <StackPanel Height="400"
+                            Width="228">
+
+                    <!--Home-->
+
+                    <RadioButton Style="{StaticResource BtnStyle}"
+                              Command="{Binding HomeCommand}"
+                              IsChecked="True">
+                        <Grid>
+                            <Image Source="..\Image\material-symbols_home.png"
+                                   Style="{StaticResource Image_Style}"/>
+                            <TextBlock Text="Home"
+                                       Style="{StaticResource Text_Style}"/>
+
+                        </Grid>
+                    </RadioButton>
+
+                    <!--My Favorite-->
+                    <RadioButton Style="{StaticResource BtnStyle}"
+                              Command="{Binding MyFavoriteCommand}">
+                        <Grid>
+                            <Image Source="..\Image\mdi_favourite-1.png"
+                                   Style="{StaticResource Image_Style}"/>
+                            <TextBlock Text="My Favorite"
+                                       Style="{StaticResource Text_Style }"/>
+                        </Grid>
+                    </RadioButton>
+
+                    <!--Account (Letaknya di View setting.xaml dan settingVM.cs) -->
+                    <RadioButton Style="{StaticResource BtnStyle}"
+                              Command="{Binding AccountCommand}">
+                        <Grid>
+                            <Image Source="..\Image\ph_user-fill.png"
+                                   Style="{StaticResource Image_Style}"/>
+                            <TextBlock Text="Account"
+                                       Style="{StaticResource Text_Style}"/>
+                        </Grid>
+                    </RadioButton>
+
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="1">
+                <ContentControl x:Name="Pages"
+                                Content="{Binding CurrentView}"/>
+            </Grid>
+        </Grid>
     </Grid>
+    <!--NAMBAH BAGIAN CLOSE APP-->
 </Window>
