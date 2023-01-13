@@ -21,63 +21,22 @@
                 <!--radio button sama seperti navbar-->
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
-        </Grid>
-        <!--
-        <Border Height="40"
-                Width="230"
-                CornerRadius="20"
-                Background="#232439"
-                Margin="20,0,0,520" HorizontalAlignment="Left">
-            <TextBlock Text="Film Terpopuler"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,0"
-                       Style="{StaticResource Text_Style}"/>
-        </Border>
-
-        <Border Height="40"
-                Width="100"
-                CornerRadius="20"
-                Background="#232439"
-                Margin="270,0,0,520" HorizontalAlignment="Left">
-
-            <TextBlock Text="Aksi"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,0"
-                       Style="{StaticResource Text_Style}"/>
-
-        </Border>
-
-        <Border Height="40"
-                Width="130"
-                CornerRadius="20"
-                Background="#232439"
-                Margin="390,0,0,520" HorizontalAlignment="Left">
-
-            <TextBlock Text="Komedi"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,0"
-                       Style="{StaticResource Text_Style}"/>
-
-        </Border>
-
-        <Border Height="40"
-                Width="100"
-                CornerRadius="20"
-                Background="#232439"
-                Margin="540,0,0,520" HorizontalAlignment="Left">
-
-            <TextBlock Text="Horor"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,0"
-                       Style="{StaticResource Text_Style}"/>
-
-        </Border>
-
--->
+        <ItemsControl ItemsSource="{Binding SearchedMovies}"
+                      Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Width="125" 
+                                Height="150" 
+                                Tag="{Binding Id}" 
+                                Content="{Binding OriginalTitle}"
+                                Background="{Binding Poster}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

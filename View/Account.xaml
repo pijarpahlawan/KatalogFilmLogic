@@ -10,7 +10,40 @@
     <UserControl.DataContext>
         <vm:AccountViewModel/>
     </UserControl.DataContext>
-    <Grid Background="#191930">
-            
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                <GradientStop Color="#232439" Offset="1"/>
+                <GradientStop Color="#000000" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Border Height="449" 
+                VerticalAlignment="Top" 
+                CornerRadius="50 50 0 0" 
+                Background="#191930" 
+                Margin="0,150,0,0">
+            <TextBlock Text="Account"
+		       HorizontalAlignment="Left"
+		       FontSize="40" Margin="31,-130,0,519"
+		       Height="60" Width="200"
+		       FontFamily="forte"
+		       Foreground="White"/>
+        </Border>
+        <StackPanel Margin="282,105,282,395">
+            <Image Source="..\Image\pngwing.com.png"
+		   Height="100" Width="100"
+		   Stretch="UniformToFill"/>
+        </StackPanel>
+        <TextBox Margin="36,250,336,300" Foreground="White" FontSize="20" 
+				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Name}"/>
+
+        <TextBox Margin="36,350,336,200" Foreground="White" FontSize="20" 
+				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Username}"/>
+
+        <TextBox Margin="36,439,336,111" Foreground="White" FontSize="20" 
+				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Id}"/>
+
+        <TextBox Margin="36,523,336,27" Foreground="White" FontSize="20" 
+				Width="300" BorderBrush="White" Text="{Binding AccountDetails.IncludeAdult}"/>
     </Grid>
 </UserControl>

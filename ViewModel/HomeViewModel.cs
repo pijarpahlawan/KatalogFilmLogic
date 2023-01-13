@@ -1,10 +1,9 @@
-﻿using KatalogFilm.View;
+﻿using KatalogFilm.Model;
 using KatalogFilm.ViewModel.Helper;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMDbLib.Client;
 using TMDbLib.Objects.Authentication;
-using TMDbLib.Objects.Search;
 
 namespace KatalogFilm.ViewModel
 {
@@ -18,12 +17,14 @@ namespace KatalogFilm.ViewModel
             _client = new TMDbClient(_apiKey);
             _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 0;
+            SearchedMovies = new ObservableCollection<Movie>();
+            GetMovies();
         }
 
         private TMDbClient _client;
         private readonly string _apiKey;
         private readonly string _sessionID;
-        private ObservableCollection<SearchMovie> _searchedMovies;
+        private ObservableCollection<Movie> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
@@ -59,7 +60,7 @@ namespace KatalogFilm.ViewModel
             }
         }
 
-        public ObservableCollection<SearchMovie> SearchedMovies
+        public ObservableCollection<Movie> SearchedMovies
         {
             get => _searchedMovies;
             set
@@ -90,32 +91,27 @@ namespace KatalogFilm.ViewModel
             get
             {
                 _selectMovie ??= new RelayCommand(param => GetDetailMovie(), null);
+                return _selectMovie;
             }
         }
 
         public async void GetMovies()
         {
+            const string endpoint = "https://image.tmdb.org/t/p/original";
             var movies = await _client.GetMovieTopRatedListAsync(page: CurrentPage);
             TotalPage = movies.TotalPages;
             foreach (var item in movies.Results)
             {
-                SearchedMovies.Add(new SearchMovie
+                SearchedMovies.Add(new Movie
                 {
                     Adult = item.Adult,
                     BackdropPath = item.BackdropPath,
                     GenreIds = item.GenreIds,
                     Id = item.Id,
-                    MediaType = item.MediaType,
                     OriginalLanguage = item.OriginalLanguage,
                     OriginalTitle = item.OriginalTitle,
                     Overview = item.Overview,
-                    Popularity = item.Popularity,
-                    PosterPath = item.PosterPath,
-                    ReleaseDate = item.ReleaseDate,
-                    Title = item.Title,
-                    Video = item.Video,
-                    VoteAverage = item.VoteAverage,
-                    VoteCount = item.VoteCount,
+                    Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
                 });
             }
         }
@@ -139,8 +135,8 @@ namespace KatalogFilm.ViewModel
         }
         public void GetDetailMovie()
         {
-            var detailMovie = new SelectedMovie();
-            detailMovie.DataContext = new SelectedMovieViewModel();
+            //var detailMovie = new SelectedMovie();
+            //detailMovie.DataContext = new SelectedMovieViewModel();
         }
     }
 }

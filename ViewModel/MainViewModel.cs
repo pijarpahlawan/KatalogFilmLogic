@@ -39,6 +39,7 @@ namespace KatalogFilm.ViewModel
 
             //start page
             CurrentView = new HomeViewModel();
+            //CurrentView = new MyFavoritesViewModel();
             IsMainVisible = true;
         }
         /*

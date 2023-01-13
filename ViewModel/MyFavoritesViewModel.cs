@@ -1,9 +1,12 @@
-﻿using KatalogFilm.ViewModel.Helper;
+﻿using KatalogFilm.Model;
+using KatalogFilm.ViewModel.Helper;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMDbLib.Client;
 using TMDbLib.Objects.Authentication;
+using TMDbLib.Objects.General;
 using TMDbLib.Objects.Search;
+
 
 namespace KatalogFilm.ViewModel
 {
@@ -17,12 +20,14 @@ namespace KatalogFilm.ViewModel
             _client = new TMDbClient(_apiKey);
             _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 1;
+            SearchedMovies = new ObservableCollection<Movie>();
+            GetMovies();
         }
 
         private TMDbClient _client;
         private readonly string _apiKey;
         private readonly string _sessionID;
-        private ObservableCollection<SearchMovie> _searchedMovies;
+        private ObservableCollection<Movie> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
@@ -57,7 +62,7 @@ namespace KatalogFilm.ViewModel
             }
         }
 
-        public ObservableCollection<SearchMovie> SearchedMovies
+        public ObservableCollection<Movie> SearchedMovies
         {
             get => _searchedMovies;
             set
@@ -84,30 +89,26 @@ namespace KatalogFilm.ViewModel
             }
         }
 
-        public async void GetMovies()
+        public void GetMovies()
         {
-            var movies = await _client.AccountGetFavoriteMoviesAsync(page: CurrentPage);
-            TotalPage = movies.TotalPages;
-            foreach (var item in movies.Results)
+            const string endpoint = "https://image.tmdb.org/t/p/original";
+            if (_client.AccountGetFavoriteMoviesAsync(page: CurrentPage).Result is SearchContainer<SearchMovie> movies)
             {
-                SearchedMovies.Add(new SearchMovie
+                TotalPage = movies.TotalPages;
+                foreach (var item in movies.Results)
                 {
-                    Adult = item.Adult,
-                    BackdropPath = item.BackdropPath,
-                    GenreIds = item.GenreIds,
-                    Id = item.Id,
-                    MediaType = item.MediaType,
-                    OriginalLanguage = item.OriginalLanguage,
-                    OriginalTitle = item.OriginalTitle,
-                    Overview = item.Overview,
-                    Popularity = item.Popularity,
-                    PosterPath = item.PosterPath,
-                    ReleaseDate = item.ReleaseDate,
-                    Title = item.Title,
-                    Video = item.Video,
-                    VoteAverage = item.VoteAverage,
-                    VoteCount = item.VoteCount,
-                });
+                    SearchedMovies.Add(new Movie
+                    {
+                        Adult = item.Adult,
+                        BackdropPath = item.BackdropPath,
+                        GenreIds = item.GenreIds,
+                        Id = item.Id,
+                        OriginalLanguage = item.OriginalLanguage,
+                        OriginalTitle = item.OriginalTitle,
+                        Overview = item.Overview,
+                        Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
+                    });
+                }
             }
         }
         public void GoToNextPage()

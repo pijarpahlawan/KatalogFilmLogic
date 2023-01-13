@@ -12,6 +12,31 @@
     </UserControl.DataContext>
 
     <Grid Background="#191930">
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <!--radio button sama seperti navbar-->
+            </StackPanel>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding SearchedMovies}"
+                      Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Width="125" 
+                                Height="150" 
+                                Tag="{Binding Id}" 
+                                Content="{Binding OriginalTitle}"
+                                Background="{Binding Poster}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
