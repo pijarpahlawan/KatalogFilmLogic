@@ -105,14 +105,10 @@
                          HorizontalAlignment="Right" 
                          VerticalAlignment="Top" 
                          Margin="0,10,10,0" 
-                         MouseLeftButtonDown="closeApp">
+                         Cursor="Hand"
+                         Click="closeApp">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                </Trigger>
-                            </Style.Triggers>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">
@@ -131,14 +127,10 @@
                          HorizontalAlignment="Right"
                          VerticalAlignment="Top"
                          Margin="0,10,40,0"
-                         MouseLeftButtonDown="MinzApp">
+                         Cursor="Hand"
+                         Click="MinzApp">
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                </Trigger>
-                            </Style.Triggers>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">

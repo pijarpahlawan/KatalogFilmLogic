@@ -13,7 +13,7 @@ namespace KatalogFilm.View
         {
             InitializeComponent();
         }
-        private void closeApp(object sender, MouseButtonEventArgs e)
+        private void closeApp(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace KatalogFilm.View
             }
         }
 
-        private void MinzApp(object sender, MouseButtonEventArgs e)
+        private void MinzApp(object sender, RoutedEventArgs e)
         {
             try
             {
