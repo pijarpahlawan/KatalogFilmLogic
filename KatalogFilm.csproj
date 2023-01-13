@@ -8,6 +8,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\material-symbols_home.png" />
+    <None Remove="Image\mdi_favourite-1.png" />
+    <None Remove="Image\ph_user-fill-1.png" />
+    <None Remove="Image\ph_user-fill.png" />
+    <None Remove="Image\pngwing.com %281%29.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Image\material-symbols_home.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\mdi_favourite-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\ph_user-fill-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\ph_user-fill.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\pngwing.com (1).png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
     <PackageReference Include="TMDbLib" Version="2.0.0" />

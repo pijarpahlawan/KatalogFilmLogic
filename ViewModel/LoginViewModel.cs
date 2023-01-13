@@ -2,6 +2,7 @@
 using KatalogFilm.ViewModel.Helper;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TMDbLib.Client;
 
 namespace KatalogFilm.ViewModel
@@ -10,19 +11,16 @@ namespace KatalogFilm.ViewModel
     {
         public LoginViewModel()
         {
-            _isLoginVisible = true;
-            _errorMessage = string.Empty;
-            _username = string.Empty;
-            _password = string.Empty;
-            _loginCommand = new ViewModelCommand(async param => await Login());
+            IsLoginVisible = true;
+            _loginCommand = new RelayCommand(async param => await Login(), null);
             RWJson.WriteToJson("api-key", "a39c8049ea4b22d58e5ed78f6f09e62b", "api.json");
         }
 
-        private string _username;
-        private string _password;
+        private string _username = string.Empty;
+        private string _password = string.Empty;
         private bool _isLoginVisible;
-        private string _errorMessage;
-        private ViewModelCommand _loginCommand;
+        private string _errorMessage = string.Empty;
+        private ICommand _loginCommand;
 
         public bool IsLoginVisible
         {
@@ -51,11 +49,11 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
-        public ViewModelCommand LoginCommand
+        public ICommand LoginCommand
         {
             get
             {
-                _loginCommand ??= new ViewModelCommand(async param => await Login());
+                _loginCommand ??= new RelayCommand(async param => await Login(), null);
                 return _loginCommand;
             }
         }

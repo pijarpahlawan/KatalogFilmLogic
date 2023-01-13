@@ -8,8 +8,10 @@ namespace KatalogFilm.ViewModel.Helper
     {
         public static void WriteToJson(string key, string value, string file)
         {
-            JObject json = new JObject();
-            json.Add(key, value);
+            JObject json = new JObject
+            {
+                { key, value }
+            };
             string jsonString = JsonConvert.SerializeObject(json);
             File.WriteAllText(file, jsonString);
         }

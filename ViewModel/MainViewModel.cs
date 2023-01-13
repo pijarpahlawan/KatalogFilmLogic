@@ -32,10 +32,10 @@ namespace KatalogFilm.ViewModel
         private bool _isMainVisible;
         public MainViewModel()
         {
-            HomeCommand = new ViewModelCommand(Home);
-            MyFavoriteCommand = new ViewModelCommand(MyFavorite);
-            AccountCommand = new ViewModelCommand(Account);
-            LoginCommand = new ViewModelCommand(Login);
+            HomeCommand = new RelayCommand(Home, null);
+            MyFavoriteCommand = new RelayCommand(MyFavorite, null);
+            AccountCommand = new RelayCommand(Account, null);
+            LoginCommand = new RelayCommand(Login, null);
 
             //start page
             CurrentView = new HomeViewModel();

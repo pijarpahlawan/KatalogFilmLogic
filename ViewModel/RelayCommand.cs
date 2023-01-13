@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace KatalogFilm.ViewModel
 {
-    public class ViewModelCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private Action<object> _execute;
         private Func<object, bool> _canExecute;
 
-        public ViewModelCommand(Action<object> execute, Func<object, bool>? canExecute = null)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute)
         {
             _execute = execute;
             _canExecute = canExecute;
