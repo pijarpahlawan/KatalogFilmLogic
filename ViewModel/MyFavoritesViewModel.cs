@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMDbLib.Client;
 using TMDbLib.Objects.Authentication;
-using TMDbLib.Objects.General;
-using TMDbLib.Objects.Search;
 
 
 namespace KatalogFilm.ViewModel
@@ -89,26 +87,25 @@ namespace KatalogFilm.ViewModel
             }
         }
 
-        public void GetMovies()
+        public async void GetMovies()
         {
             const string endpoint = "https://image.tmdb.org/t/p/original";
-            if (_client.AccountGetFavoriteMoviesAsync(page: CurrentPage).Result is SearchContainer<SearchMovie> movies)
+            var user = await _client.AccountGetDetailsAsync();
+            var movies = await _client.AccountGetFavoriteMoviesAsync(page: CurrentPage);
+            TotalPage = movies.TotalPages;
+            foreach (var item in movies.Results)
             {
-                TotalPage = movies.TotalPages;
-                foreach (var item in movies.Results)
+                SearchedMovies.Add(new Movie
                 {
-                    SearchedMovies.Add(new Movie
-                    {
-                        Adult = item.Adult,
-                        BackdropPath = item.BackdropPath,
-                        GenreIds = item.GenreIds,
-                        Id = item.Id,
-                        OriginalLanguage = item.OriginalLanguage,
-                        OriginalTitle = item.OriginalTitle,
-                        Overview = item.Overview,
-                        Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
-                    });
-                }
+                    Adult = item.Adult,
+                    BackdropPath = item.BackdropPath,
+                    GenreIds = item.GenreIds,
+                    Id = item.Id,
+                    OriginalLanguage = item.OriginalLanguage,
+                    OriginalTitle = item.OriginalTitle,
+                    Overview = item.Overview,
+                    Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
+                });
             }
         }
         public void GoToNextPage()
