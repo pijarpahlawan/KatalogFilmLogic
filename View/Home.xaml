@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:KatalogFilm.View"
              xmlns:vm="clr-namespace:KatalogFilm.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="672">
+             d:DesignHeight="600" d:DesignWidth="670">
     <UserControl.DataContext>
         <vm:HomeViewModel/>
     </UserControl.DataContext>
@@ -17,13 +17,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <!--radio button sama seperti navbar-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,20,10" HorizontalAlignment="Left">
+                <TextBox Text="{Binding Path=KeywordSearch, Mode=TwoWay}" Foreground="White" Height="27" Width="150" MaxWidth="300"/>
+                <Button Command="{Binding SearchMovieCommand}" Content="Cari"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20,10,20,10" HorizontalAlignment="Right">
+                <Button Command="{Binding PreviousCommand}" Content="Prev"/>
+                <Button Command="{Binding NextCommand}" Content="Next"/>
             </StackPanel>
         </Grid>
         <ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding SearchedMovies}"
-                          Height="1200">
+                          Height="756"
+                          Width="630"
+                          Margin="10,0,-10,0">
                 <ItemsControl.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Margin" Value="3"/>
@@ -36,8 +43,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Width="125" 
-                                Height="150" 
+                        <Button Width="120" 
+                                Height="180" 
                                 Tag="{Binding Id}" 
                                 Content="{Binding OriginalTitle}"
                                 Background="{Binding Poster}"/>

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMDbLib.Client;
 using TMDbLib.Objects.Authentication;
+using TMDbLib.Objects.General;
+using TMDbLib.Objects.Search;
 
 namespace KatalogFilm.ViewModel
 {
@@ -24,12 +26,14 @@ namespace KatalogFilm.ViewModel
         private TMDbClient _client;
         private readonly string _apiKey;
         private readonly string _sessionID;
+        private string? _keywordSearch;
         private ObservableCollection<Movie> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
         private ICommand _previousCommand;
-        private ICommand _selectMovie;
+        private ICommand _selectMovieCommand;
+        private ICommand _searchMovieCommand;
 
 
         public TMDbClient Client
@@ -59,7 +63,16 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(TotalPage));
             }
         }
-
+        public string? KeywordSearch
+        {
+            get => _keywordSearch;
+            set
+            {
+                _keywordSearch = value;
+                CurrentPage = 0;
+                OnPropertyChanged(nameof(KeywordSearch));
+            }
+        }
         public ObservableCollection<Movie> SearchedMovies
         {
             get => _searchedMovies;
@@ -69,7 +82,6 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(SearchedMovies));
             }
         }
-
         public ICommand NextCommand
         {
             get
@@ -78,7 +90,7 @@ namespace KatalogFilm.ViewModel
                 return _nextCommand;
             }
         }
-        public ICommand PreviousCommand1
+        public ICommand PreviousCommand
         {
             get
             {
@@ -86,19 +98,36 @@ namespace KatalogFilm.ViewModel
                 return _previousCommand;
             }
         }
-        public ICommand SelectMovie
+        public ICommand SelectMovieCommand
         {
             get
             {
-                _selectMovie ??= new RelayCommand(param => GetDetailMovie(), null);
-                return _selectMovie;
+                _selectMovieCommand ??= new RelayCommand(param => GetDetailMovie(), null);
+                return _selectMovieCommand;
+            }
+        }
+        public ICommand SearchMovieCommand
+        {
+            get
+            {
+                _searchMovieCommand ??= new RelayCommand(param => GetMovies(), null);
+                return _searchMovieCommand;
             }
         }
 
         public async void GetMovies()
         {
+            SearchedMovies.Clear();
             const string endpoint = "https://image.tmdb.org/t/p/original";
-            var movies = await _client.GetMovieTopRatedListAsync(page: CurrentPage);
+            SearchContainer<SearchMovie> movies = new SearchContainer<SearchMovie>();
+            if (string.IsNullOrEmpty(KeywordSearch) || string.IsNullOrWhiteSpace(KeywordSearch))
+            {
+                movies = await _client.GetMovieTopRatedListAsync(page: CurrentPage);
+            }
+            else
+            {
+                movies = await _client.SearchMovieAsync(KeywordSearch, page: CurrentPage);
+            }
             TotalPage = movies.TotalPages;
             foreach (var item in movies.Results)
             {
