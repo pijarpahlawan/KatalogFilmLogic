@@ -91,6 +91,7 @@
                                 Content="{Binding CurrentView}"/>
             </Grid>
         </Grid>
+        <!--
         <Border CornerRadius="5" Background="Transparent" BorderBrush="Transparent" BorderThickness="0.3">
             <Grid>
                 <Grid.RowDefinitions>
@@ -146,6 +147,7 @@
 
             </Grid>
         </Border>
+        -->
     </Grid>
     <!--NAMBAH BAGIAN CLOSE APP-->
     
