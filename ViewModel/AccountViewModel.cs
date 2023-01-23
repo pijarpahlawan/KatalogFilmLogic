@@ -1,6 +1,7 @@
 ﻿using KatalogFilm.ViewModel.Helper;
+using KatalogFilm.ViewModel.ObservableModel;
+using System.Threading.Tasks;
 using TMDbLib.Client;
-using TMDbLib.Objects.Account;
 using TMDbLib.Objects.Authentication;
 
 namespace KatalogFilm.ViewModel
@@ -14,13 +15,14 @@ namespace KatalogFilm.ViewModel
             _sessionID = RWJson.ReadFromJSON("session-id", "session.json");
             _client = new TMDbClient(_apiKey);
             _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
-            _accountDetails = _client.AccountGetDetailsAsync().Result;
+            AccountObservable = new AccountObservable();
+            _ = GetAccountDetails();
         }
 
         private TMDbClient _client;
         private readonly string _apiKey;
         private readonly string _sessionID;
-        private AccountDetails _accountDetails;
+        private AccountObservable _accountObservable;
 
         public TMDbClient Client
         {
@@ -31,14 +33,22 @@ namespace KatalogFilm.ViewModel
                 _client = value;
             }
         }
-        public AccountDetails AccountDetails
+        public AccountObservable AccountObservable
         {
-            get => _accountDetails;
+            get => _accountObservable;
             set
             {
-                _accountDetails = value;
-                OnPropertyChanged(nameof(AccountDetails));
+                _accountObservable = value;
+                OnPropertyChanged(nameof(AccountObservable));
             }
+        }
+        public async Task GetAccountDetails()
+        {
+            var accountDetails = await _client.AccountGetDetailsAsync();
+            AccountObservable.Id = accountDetails.Id;
+            AccountObservable.Name = accountDetails.Name;
+            AccountObservable.Username = accountDetails.Username;
+            AccountObservable.IncludeAdult = accountDetails.IncludeAdult == true ? "Dewasa" : "Non Dewasa";
         }
     }
 }

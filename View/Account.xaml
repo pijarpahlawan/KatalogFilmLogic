@@ -35,15 +35,15 @@
 		   Stretch="UniformToFill"/>
         </StackPanel>
         <TextBox Margin="36,250,336,300" Foreground="White" FontSize="20" 
-				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Name}"/>
+				Width="300" BorderBrush="White" Text="{Binding AccountObservable.Name}"/>
 
         <TextBox Margin="36,350,336,200" Foreground="White" FontSize="20" 
-				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Username}"/>
+				Width="300" BorderBrush="White" Text="{Binding AccountObservable.Username}"/>
 
         <TextBox Margin="36,439,336,111" Foreground="White" FontSize="20" 
-				Width="300" BorderBrush="White" Text="{Binding AccountDetails.Id}"/>
+				Width="300" BorderBrush="White" Text="{Binding AccountObservable.Id}"/>
 
         <TextBox Margin="36,523,336,27" Foreground="White" FontSize="20" 
-				Width="300" BorderBrush="White" Text="{Binding AccountDetails.IncludeAdult}"/>
+				Width="300" BorderBrush="White" Text="{Binding AccountObservable.IncludeAdult}"/>
     </Grid>
 </UserControl>

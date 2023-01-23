@@ -1,8 +1,9 @@
-﻿using KatalogFilm.Model;
-using KatalogFilm.View;
+﻿using KatalogFilm.View;
 using KatalogFilm.ViewModel.Helper;
+using KatalogFilm.ViewModel.ObservableModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TMDbLib.Client;
 using TMDbLib.Objects.Authentication;
@@ -21,15 +22,15 @@ namespace KatalogFilm.ViewModel
             _client = new TMDbClient(_apiKey);
             _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 0;
-            SearchedMovies = new ObservableCollection<Movie>();
-            GetMovies();
+            SearchedMovies = new ObservableCollection<MovieObservable>();
+            _ = GetMovies();
         }
 
         private TMDbClient _client;
         private readonly string _apiKey;
         private readonly string _sessionID;
         private string? _keywordSearch;
-        private ObservableCollection<Movie> _searchedMovies;
+        private ObservableCollection<MovieObservable> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
@@ -75,7 +76,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(KeywordSearch));
             }
         }
-        public ObservableCollection<Movie> SearchedMovies
+        public ObservableCollection<MovieObservable> SearchedMovies
         {
             get => _searchedMovies;
             set
@@ -88,7 +89,7 @@ namespace KatalogFilm.ViewModel
         {
             get
             {
-                _nextCommand ??= new RelayCommand(param => GoToNextPage(), param => CanGoToNextPageExecuted());
+                _nextCommand ??= new RelayCommand(async param => await GoToNextPage(), param => CanGoToNextPageExecuted());
                 return _nextCommand;
             }
         }
@@ -96,7 +97,7 @@ namespace KatalogFilm.ViewModel
         {
             get
             {
-                _previousCommand ??= new RelayCommand(param => GoToPreviousPage(), param => CanGoToPreviousPageExecuted());
+                _previousCommand ??= new RelayCommand(async param => await GoToPreviousPage(), param => CanGoToPreviousPageExecuted());
                 return _previousCommand;
             }
         }
@@ -112,12 +113,12 @@ namespace KatalogFilm.ViewModel
         {
             get
             {
-                _searchMovieCommand ??= new RelayCommand(param => GetMovies(), null);
+                _searchMovieCommand ??= new RelayCommand(async param => await GetMovies(), null);
                 return _searchMovieCommand;
             }
         }
 
-        public async void GetMovies()
+        public async Task GetMovies()
         {
             SearchedMovies.Clear();
             const string endpoint = "https://image.tmdb.org/t/p/original";
@@ -133,32 +134,31 @@ namespace KatalogFilm.ViewModel
             TotalPage = movies.TotalPages;
             foreach (var item in movies.Results)
             {
-                SearchedMovies.Add(new Movie
+                SearchedMovies.Add(new MovieObservable
                 {
                     Adult = item.Adult,
-                    BackdropPath = item.BackdropPath,
-                    GenreIds = item.GenreIds,
                     Id = item.Id,
                     OriginalLanguage = item.OriginalLanguage,
                     OriginalTitle = item.OriginalTitle,
                     Overview = item.Overview,
+                    PosterPath = endpoint + item.PosterPath,
                     Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
                 });
             }
         }
-        public void GoToNextPage()
+        public async Task GoToNextPage()
         {
             CurrentPage++;
-            GetMovies();
+            await GetMovies();
         }
         public bool CanGoToNextPageExecuted()
         {
             return CurrentPage < TotalPage;
         }
-        public void GoToPreviousPage()
+        public async Task GoToPreviousPage()
         {
             CurrentPage--;
-            GetMovies();
+            await GetMovies();
         }
         public bool CanGoToPreviousPageExecuted()
         {

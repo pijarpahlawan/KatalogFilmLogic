@@ -49,22 +49,22 @@ namespace KatalogFilm.ViewModel
             sessionID = RWJson.ReadFromJSON("session-id", "session.json");
             _client = new TMDbClient(apiKey);
             _client.SetSessionInformationAsync(sessionID, SessionType.UserSession);
-            _accountDetails = _client.AccountGetDetailsAsync().Result;
+            _accountObservable = _client.AccountGetDetailsAsync().Result;
         }
 
         private TMDbClient _client;
         private readonly string apiKey;
         private readonly string sessionID;
-        private AccountDetails _accountDetails;
+        private AccountObservable _accountObservable;
 
         
-        public AccountDetails AccountDetails
+        public AccountObservable AccountObservable
         {
-            get => _accountDetails;
+            get => _accountObservable;
             set
             {
-                _accountDetails = value;
-                OnPropertyChanged(nameof(AccountDetails));
+                _accountObservable = value;
+                OnPropertyChanged(nameof(AccountObservable));
             }
         }*/
     }
