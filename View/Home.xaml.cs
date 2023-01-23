@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,18 @@ namespace KatalogFilm.View
         public Home()
         {
             InitializeComponent();
+        }
+
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var btn = sender as Button;
+            Debug.WriteLine($"Mouse Enter: {btn?.Content}");
+        }
+
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var btn = sender as Button;
+            Debug.WriteLine($"Mouse Leave: {btn?.Content}");
         }
     }
 }

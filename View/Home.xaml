@@ -50,7 +50,12 @@
                                 Background="{Binding Poster}"
                                 Command="{Binding DataContext.SelectMovieCommand, 
                             RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                CommandParameter="{Binding Id}"/>
+                                CommandParameter="{Binding Id}"
+                                Style="{DynamicResource MovieButtonStyle}"
+                                Cursor="Hand"
+                                Margin="2"
+                                MouseEnter="Button_MouseEnter"
+                                MouseLeave="Button_MouseLeave"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
