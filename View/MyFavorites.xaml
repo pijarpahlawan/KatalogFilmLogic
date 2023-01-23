@@ -30,11 +30,14 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Width="125" 
-                                Height="150" 
-                                Tag="{Binding Id}" 
-                                Content="{Binding OriginalTitle}"
-                                Background="{Binding Poster}"/>
+                    <Button Width="120" 
+                            Height="180" 
+                            Tag="{Binding Id}"
+                            Content="{Binding OriginalTitle}"
+                            Background="{Binding Poster}"
+                            Style="{DynamicResource MovieButtonStyle}"
+                            Cursor="Hand"
+                            Margin="2"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
