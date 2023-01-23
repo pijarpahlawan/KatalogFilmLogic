@@ -6,13 +6,13 @@ using TMDbLib.Objects.Authentication;
 
 namespace KatalogFilm.ViewModel
 {
+    // view model untuk login window
     public class LoginViewModel : ViewModelBase
     {
         public LoginViewModel()
         {
             IsLoginVisible = true;
             _loginCommand = new RelayCommand(async param => await Login(), null);
-            //RWJson.WriteToJson("api-key", "a39c8049ea4b22d58e5ed78f6f09e62b", "api.json");
         }
 
         private string _username = string.Empty;
@@ -21,6 +21,7 @@ namespace KatalogFilm.ViewModel
         private string _errorMessage = string.Empty;
         private ICommand _loginCommand;
 
+        // property yang menentukan visibilitas login window
         public bool IsLoginVisible
         {
             get => _isLoginVisible;
@@ -30,6 +31,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(IsLoginVisible));
             }
         }
+        // menampung inputan username
         public string Username
         {
             get => _username;
@@ -39,6 +41,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(Username));
             }
         }
+        // menampung inputan password
         public string Password
         {
             get => _password;
@@ -48,6 +51,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
+        // perintah untuk tombol login
         public ICommand LoginCommand
         {
             get
@@ -56,6 +60,7 @@ namespace KatalogFilm.ViewModel
                 return _loginCommand;
             }
         }
+        // menampilkan pesan error ketika username dan password salah
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -66,30 +71,25 @@ namespace KatalogFilm.ViewModel
             }
         }
 
+        // fungsi untuk melakukan login
         public async Task Login()
         {
-            //string apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            //login
             try
             {
+                // mendapatkan sesi login
                 var sessionLogin = await App.Client.AuthenticationGetUserSessionAsync(_username, _password);
+                // memasukkan informasi id sesi ke client
                 await App.Client.SetSessionInformationAsync(sessionLogin.SessionId, SessionType.UserSession);
+                // mendapatkan account saat ini
                 App.Account = App.Client.ActiveAccount;
+                // membuka main window
                 var mainWindow = new MainWindow();
                 mainWindow.DataContext = new MainViewModel();
                 IsLoginVisible = false;
-                //RWJson.WriteToJson("session-id", sessionLogin.SessionId, "session.json");
-                //using (var client = new TMDbClient(apiKey))
-                //{
-                //    var sessionLogin = await client.AuthenticationGetUserSessionAsync(_username, _password);
-                //    RWJson.WriteToJson("session-id", sessionLogin.SessionId, "session.json");
-                //    var mainWindow = new MainWindow();
-                //    mainWindow.DataContext = new MainViewModel();
-                //    IsLoginVisible = false;
-                //}
             }
             catch (Exception)
             {
+                // jika terdapat kesalahan login, maka akan memunculkan error
                 ErrorMessage = "Gagal login. Pastikan username dan password benar";
                 IsLoginVisible = true;
             }

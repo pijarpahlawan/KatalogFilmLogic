@@ -10,23 +10,16 @@ using TMDbLib.Objects.Search;
 
 namespace KatalogFilm.ViewModel
 {
+    // view model untuk page home
     public class HomeViewModel : ViewModelBase
     {
         public HomeViewModel()
         {
-            // get session
-            //_apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            //_sessionID = RWJson.ReadFromJSON("session-id", "session.json");
-            //_client = new TMDbClient(_apiKey);
-            //_client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 0;
             SearchedMovies = new ObservableCollection<MovieObservable>();
             _ = GetMovies();
         }
 
-        //private TMDbClient _client;
-        //private readonly string _apiKey;
-        //private readonly string _sessionID;
         private ObservableCollection<MovieObservable> _searchedMovies;
         private string? _keywordSearch;
         private int _currentPage;
@@ -36,16 +29,7 @@ namespace KatalogFilm.ViewModel
         private ICommand _selectMovieCommand;
         private ICommand _searchMovieCommand;
 
-
-        //public TMDbClient Client
-        //{
-        //    get => _client;
-        //    set
-        //    {
-        //        _client.Dispose();
-        //        _client = value;
-        //    }
-        //}
+        // page movie saat ini
         public int CurrentPage
         {
             get => _currentPage;
@@ -55,6 +39,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(CurrentPage));
             }
         }
+        // total page movie
         public int TotalPage
         {
             get => _totalPage;
@@ -64,6 +49,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(TotalPage));
             }
         }
+        // keyword pencarian movie
         public string? KeywordSearch
         {
             get => _keywordSearch;
@@ -74,6 +60,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(KeywordSearch));
             }
         }
+        // kumpulan movie 
         public ObservableCollection<MovieObservable> SearchedMovies
         {
             get => _searchedMovies;
@@ -83,6 +70,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(SearchedMovies));
             }
         }
+        // perintah untuk tombol next
         public ICommand NextCommand
         {
             get
@@ -91,6 +79,7 @@ namespace KatalogFilm.ViewModel
                 return _nextCommand;
             }
         }
+        // perintah untuk tombol prev
         public ICommand PreviousCommand
         {
             get
@@ -99,6 +88,7 @@ namespace KatalogFilm.ViewModel
                 return _previousCommand;
             }
         }
+        // perintah ketika memilih salah satu movie
         public ICommand SelectMovieCommand
         {
             get
@@ -107,6 +97,7 @@ namespace KatalogFilm.ViewModel
                 return _selectMovieCommand;
             }
         }
+        // perintah ketika melakukan pencarian movie
         public ICommand SearchMovieCommand
         {
             get
@@ -116,52 +107,64 @@ namespace KatalogFilm.ViewModel
             }
         }
 
+        // fungsi untuk mendapatkan daftar movie
         public async Task GetMovies()
         {
             SearchedMovies.Clear();
             const string endpoint = "https://image.tmdb.org/t/p/original";
             SearchContainer<SearchMovie> movies = new SearchContainer<SearchMovie>();
+
+            // apabila tidak dilakukan pencarian, maka mendapatkan movie top rated
             if (string.IsNullOrEmpty(KeywordSearch) || string.IsNullOrWhiteSpace(KeywordSearch))
             {
                 movies = await App.Client.GetMovieTopRatedListAsync(page: CurrentPage);
             }
+            // apabila dilakukan pencarian maka mendapatkan daftar movie sesuai keyword
             else
             {
                 movies = await App.Client.SearchMovieAsync(KeywordSearch, page: CurrentPage);
             }
+
             TotalPage = movies.TotalPages;
+
+            // mendapatkan movie
             foreach (var item in movies.Results)
             {
                 SearchedMovies.Add(new MovieObservable
                 {
-                    Adult = item.Adult,
                     Id = item.Id,
-                    OriginalLanguage = item.OriginalLanguage,
+                    Adult = item.Adult,
                     OriginalTitle = item.OriginalTitle,
+                    OriginalLanguage = item.OriginalLanguage,
                     Overview = item.Overview,
                     PosterPath = endpoint + item.PosterPath,
                     Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
                 });
             }
         }
+        // fungsi untuk ke page movie selanjutnya
         public async Task GoToNextPage()
         {
             CurrentPage++;
             await GetMovies();
         }
+        // fungsi untuk menentukan apakah tombol next dapat diklik
         public bool CanGoToNextPageExecuted()
         {
             return CurrentPage < TotalPage;
         }
+        // fungsi untuk ke page movie sebelumnya
         public async Task GoToPreviousPage()
         {
             CurrentPage--;
             await GetMovies();
         }
+        // fungsi untuk menentukan apakah tombol prev dapat diklik
         public bool CanGoToPreviousPageExecuted()
         {
             return CurrentPage > 1;
         }
+        // fungsi untuk membuka window detail movie yang diklik
         public void GetDetailMovie(object id)
         {
             var detailMovie = new DetailMovie();

@@ -2,6 +2,7 @@
 
 namespace KatalogFilm.ViewModel.ObservableModel
 {
+    // representasi dari model movie
     public class MovieObservable : ViewModelBase
     {
         private bool _adult;

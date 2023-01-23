@@ -9,23 +9,16 @@ using System.Windows.Input;
 
 namespace KatalogFilm.ViewModel
 {
+    // view model untuk page favorite
     public class MyFavoritesViewModel : ViewModelBase
     {
         public MyFavoritesViewModel()
         {
-            // get session
-            //_apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            //_sessionID = RWJson.ReadFromJSON("session-id", "session.json");
-            //_client = new TMDbClient(_apiKey);
-            //_client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 1;
             SearchedMovies = new ObservableCollection<MovieObservable>();
             _ = GetMovies();
         }
 
-        //private TMDbClient _client;
-        //private readonly string _apiKey;
-        //private readonly string _sessionID;
         private ObservableCollection<MovieObservable> _searchedMovies;
         private string? _keywordSearch;
         private int _currentPage;
@@ -35,16 +28,7 @@ namespace KatalogFilm.ViewModel
         private ICommand _selectMovieCommand;
         private ICommand _searchMovieCommand;
 
-
-        //public TMDbClient Client
-        //{
-        //    get => _client;
-        //    set
-        //    {
-        //        _client.Dispose();
-        //        _client = value;
-        //    }
-        //}
+        // page movie saat ini
         public int CurrentPage
         {
             get => _currentPage;
@@ -54,6 +38,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(CurrentPage));
             }
         }
+        // total page movie
         public int TotalPage
         {
             get => _totalPage;
@@ -63,6 +48,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(TotalPage));
             }
         }
+        // keyword pencarian
         public string? KeywordSearch
         {
             get => _keywordSearch;
@@ -72,6 +58,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(KeywordSearch));
             }
         }
+        // kumpulan movie
         public ObservableCollection<MovieObservable> SearchedMovies
         {
             get => _searchedMovies;
@@ -81,7 +68,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(SearchedMovies));
             }
         }
-
+        // perintah untuk menuju page berikutnya
         public ICommand NextCommand
         {
             get
@@ -90,6 +77,7 @@ namespace KatalogFilm.ViewModel
                 return _nextCommand;
             }
         }
+        // perintah untuk menuju page sebelumnya
         public ICommand PreviousCommand
         {
             get
@@ -98,7 +86,7 @@ namespace KatalogFilm.ViewModel
                 return _previousCommand;
             }
         }
-
+        // perintah pada tiap tombol movie
         public ICommand SelectMovieCommand
         {
             get
@@ -107,6 +95,7 @@ namespace KatalogFilm.ViewModel
                 return _selectMovieCommand;
             }
         }
+        // perintah pada tombol pencarian
         public ICommand SearchMovieCommand
         {
             get
@@ -116,12 +105,14 @@ namespace KatalogFilm.ViewModel
             }
         }
 
+        // fungsi untuk mendapatkan daftar movie
         public async Task GetMovies()
         {
             const string endpoint = "https://image.tmdb.org/t/p/original";
-            //var user = await _client.AccountGetDetailsAsync();
             var movies = await App.Client.AccountGetFavoriteMoviesAsync(page: CurrentPage);
             TotalPage = movies.TotalPages;
+
+            // mendapatkan movie
             foreach (var item in movies.Results)
             {
                 SearchedMovies.Add(new MovieObservable
@@ -136,24 +127,29 @@ namespace KatalogFilm.ViewModel
                 });
             }
         }
+        // fungsi untuk menuju page berikutnya
         public async Task GoToNextPage()
         {
             CurrentPage++;
             await GetMovies();
         }
+        // fungsi untuk menentukan tombol next bisa diklik atau tidak
         public bool CanGoToNextPageExecuted()
         {
             return CurrentPage < TotalPage;
         }
+        // fungsi untuk menuju page sebelumnya
         public async Task GoToPreviousPage()
         {
             CurrentPage--;
             await GetMovies();
         }
+        // fungsi untuk menentukan tombol prev bisa diklik atau tidak
         public bool CanGoToPreviousPageExecuted()
         {
             return CurrentPage > 1;
         }
+        // fungsi untuk mendapatkan detail movie
         public void GetDetailMovie(object id)
         {
             var detailMovie = new DetailMovie();

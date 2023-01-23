@@ -2,6 +2,7 @@
 
 namespace KatalogFilm.ViewModel.ObservableModel
 {
+    // representasi dari model account
     public class AccountObservable : ViewModelBase
     {
         private int _id;

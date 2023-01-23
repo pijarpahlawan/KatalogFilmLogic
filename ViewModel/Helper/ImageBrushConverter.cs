@@ -6,6 +6,7 @@ namespace KatalogFilm.ViewModel.Helper
 {
     public static class ImageBrushConverter
     {
+        // mengkonversi image url ke ImageBrush
         public static ImageBrush PathToImageBrush(string imagePath)
         {
             ImageBrush result;

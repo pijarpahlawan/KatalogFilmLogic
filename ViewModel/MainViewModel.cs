@@ -2,18 +2,31 @@
 
 namespace KatalogFilm.ViewModel
 {
+    // view model untuk main
     public class MainViewModel : ViewModelBase
     {
+        public MainViewModel()
+        {
+            HomeCommand = new RelayCommand(Home, null);
+            MyFavoriteCommand = new RelayCommand(MyFavorite, null);
+            AccountCommand = new RelayCommand(Account, null);
+            LoginCommand = new RelayCommand(Login, null);
+
+            //start page
+            CurrentView = new HomeViewModel();
+            IsMainVisible = true;
+        }
+
+        private bool _isMainVisible;
         private object _currentView;
+
+        // page saat ini
         public object CurrentView
         {
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
         }
-        public ICommand HomeCommand { get; set; }
-        public ICommand MyFavoriteCommand { get; set; }
-        public ICommand AccountCommand { get; set; }
-        public ICommand LoginCommand { get; set; }
+        // menentukan visibilitas main window
         public bool IsMainVisible
         {
             get => _isMainVisible;
@@ -24,48 +37,17 @@ namespace KatalogFilm.ViewModel
             }
         }
 
+        // perintah di navbar
+        public ICommand HomeCommand { get; set; }
+        public ICommand MyFavoriteCommand { get; set; }
+        public ICommand AccountCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
+
+        // fungsi untuk perpindahan page di navbar
         private void Home(object obj) => CurrentView = new HomeViewModel();
         private void MyFavorite(object obj) => CurrentView = new MyFavoritesViewModel();
         private void Account(object obj) => CurrentView = new AccountViewModel();
         private void Login(object obj) => CurrentView = new LoginViewModel();
 
-        private bool _isMainVisible;
-        public MainViewModel()
-        {
-            HomeCommand = new RelayCommand(Home, null);
-            MyFavoriteCommand = new RelayCommand(MyFavorite, null);
-            AccountCommand = new RelayCommand(Account, null);
-            LoginCommand = new RelayCommand(Login, null);
-
-            //start page
-            CurrentView = new HomeViewModel();
-            //CurrentView = new MyFavoritesViewModel();
-            IsMainVisible = true;
-        }
-        /*
-        public MainViewModel()
-        {
-            apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            sessionID = RWJson.ReadFromJSON("session-id", "session.json");
-            _client = new TMDbClient(apiKey);
-            _client.SetSessionInformationAsync(sessionID, SessionType.UserSession);
-            _accountObservable = _client.AccountGetDetailsAsync().Result;
-        }
-
-        private TMDbClient _client;
-        private readonly string apiKey;
-        private readonly string sessionID;
-        private AccountObservable _accountObservable;
-
-        
-        public AccountObservable AccountObservable
-        {
-            get => _accountObservable;
-            set
-            {
-                _accountObservable = value;
-                OnPropertyChanged(nameof(AccountObservable));
-            }
-        }*/
     }
 }

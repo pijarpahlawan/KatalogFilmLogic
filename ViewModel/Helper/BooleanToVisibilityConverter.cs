@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace KatalogFilm.ViewModel.Helper
 {
+    // menentukan visibilitas window
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BooleanToVisibilityConverter : IValueConverter
     {
