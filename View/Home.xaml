@@ -48,14 +48,11 @@
                                 Tag="{Binding Id}" 
                                 Content="{Binding OriginalTitle}"
                                 Background="{Binding Poster}"
-                                Command="{Binding DataContext.SelectMovieCommand, 
-                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                Command="{Binding DataContext.SelectMovieCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding Id}"
                                 Style="{DynamicResource MovieButtonStyle}"
                                 Cursor="Hand"
-                                Margin="2"
-                                MouseEnter="Button_MouseEnter"
-                                MouseLeave="Button_MouseLeave"/>
+                                Margin="2"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

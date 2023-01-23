@@ -45,6 +45,7 @@ namespace KatalogFilm.ViewModel
             AccountObservable.Name = App.Account.Name;
             AccountObservable.Username = App.Account.Username;
             AccountObservable.IncludeAdult = App.Account.IncludeAdult == true ? "Dewasa" : "Non Dewasa";
+            AccountObservable.AvatarUrl = "https://www.gravatar.com/avatar/" + App.Account.Avatar.Gravatar.Hash;
         }
     }
 }
