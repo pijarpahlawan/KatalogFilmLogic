@@ -30,7 +30,7 @@
 		       Foreground="White"/>
         </Border>
         <StackPanel Margin="282,105,282,395">
-            <Image Source="..\Image\pngwing.com.png"
+            <Image Source="{Binding AccountObservable.AvatarUrl}"
 		   Height="100" Width="100"
 		   Stretch="UniformToFill"/>
         </StackPanel>

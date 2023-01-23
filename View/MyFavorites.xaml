@@ -10,19 +10,28 @@
     <UserControl.DataContext>
         <vm:MyFavoritesViewModel/>
     </UserControl.DataContext>
-
     <Grid Background="#191930">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <!--radio button sama seperti navbar-->
+            <StackPanel Orientation="Horizontal" Margin="20,10,20,10" HorizontalAlignment="Left">
+                <TextBox Text="{Binding Path=KeywordSearch, Mode=TwoWay}" Foreground="White" Height="27" Width="150" MaxWidth="300"/>
+                <Button Command="{Binding SearchMovieCommand}" Content="Cari"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20,10,20,10" HorizontalAlignment="Right">
+                <Button Command="{Binding PreviousCommand}" Content="Prev"/>
+                <Button Command="{Binding NextCommand}" Content="Next"/>
             </StackPanel>
         </Grid>
         <ItemsControl ItemsSource="{Binding SearchedMovies}"
                       Grid.Row="1">
+            <ItemsControl.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </ItemsControl.Resources>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -35,6 +44,8 @@
                             Tag="{Binding Id}"
                             Content="{Binding OriginalTitle}"
                             Background="{Binding Poster}"
+                            Command="{Binding DataContext.SelectMovieCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                            CommandParameter="{Binding Id}"
                             Style="{DynamicResource MovieButtonStyle}"
                             Cursor="Hand"
                             Margin="2"/>
