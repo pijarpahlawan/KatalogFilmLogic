@@ -8,6 +8,38 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderThickness="0"
                             BorderBrush="Transparent">
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TitleBorder"
+                                                         Storyboard.TargetProperty="Height"
+                                                         From="40"
+                                                         To="180"
+                                                         Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TitleBorder"
+                                                         Storyboard.TargetProperty="Height"
+                                                         From="180"
+                                                         To="40"
+                                                         Duration="0:0:0.5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -22,43 +54,16 @@
                                     <SolidColorBrush Color="Black"
                                                      Opacity="0.75"/>
                                 </Border.Background>
+                                <TextBlock Text="{TemplateBinding Content}"
+                                           Foreground="White"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Bold"
+                                           FontFamily="Dubai"
+                                           Margin="5"
+                                           TextWrapping="Wrap"/>
                             </Border>
-                            <TextBlock Text="{TemplateBinding Content}"
-                                       Foreground="White"
-                                       Grid.Row="1"/>
                         </Grid>
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="TitleBorder"
-                                                             Storyboard.TargetProperty="Height"
-                                                                 From="41"
-                                                                 To="180"
-                                                                 Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CircleEase EasingMode="EaseInOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="TitleBorder"
-                                                             Storyboard.TargetProperty="Height"
-                                                                 From="180"
-                                                                 To="40"
-                                                                 Duration="0:0:0.5">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CircleEase EasingMode="EaseInOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Border.Triggers>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
