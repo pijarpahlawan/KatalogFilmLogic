@@ -3,8 +3,6 @@ using KatalogFilm.ViewModel.ObservableModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TMDbLib.Client;
-using TMDbLib.Objects.Authentication;
 
 
 namespace KatalogFilm.ViewModel
@@ -14,18 +12,18 @@ namespace KatalogFilm.ViewModel
         public MyFavoritesViewModel()
         {
             // get session
-            _apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            _sessionID = RWJson.ReadFromJSON("session-id", "session.json");
-            _client = new TMDbClient(_apiKey);
-            _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
+            //_apiKey = RWJson.ReadFromJSON("api-key", "api.json");
+            //_sessionID = RWJson.ReadFromJSON("session-id", "session.json");
+            //_client = new TMDbClient(_apiKey);
+            //_client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             CurrentPage = 1;
             SearchedMovies = new ObservableCollection<MovieObservable>();
             _ = GetMovies();
         }
 
-        private TMDbClient _client;
-        private readonly string _apiKey;
-        private readonly string _sessionID;
+        //private TMDbClient _client;
+        //private readonly string _apiKey;
+        //private readonly string _sessionID;
         private ObservableCollection<MovieObservable> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
@@ -33,15 +31,15 @@ namespace KatalogFilm.ViewModel
         private ICommand _previousCommand;
 
 
-        public TMDbClient Client
-        {
-            get => _client;
-            set
-            {
-                _client.Dispose();
-                _client = value;
-            }
-        }
+        //public TMDbClient Client
+        //{
+        //    get => _client;
+        //    set
+        //    {
+        //        _client.Dispose();
+        //        _client = value;
+        //    }
+        //}
         public int CurrentPage
         {
             get => _currentPage;
@@ -91,8 +89,8 @@ namespace KatalogFilm.ViewModel
         public async Task GetMovies()
         {
             const string endpoint = "https://image.tmdb.org/t/p/original";
-            var user = await _client.AccountGetDetailsAsync();
-            var movies = await _client.AccountGetFavoriteMoviesAsync(page: CurrentPage);
+            //var user = await _client.AccountGetDetailsAsync();
+            var movies = await App.Client.AccountGetFavoriteMoviesAsync(page: CurrentPage);
             TotalPage = movies.TotalPages;
             foreach (var item in movies.Results)
             {

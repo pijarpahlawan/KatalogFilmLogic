@@ -1,8 +1,4 @@
-﻿using KatalogFilm.ViewModel.Helper;
-using KatalogFilm.ViewModel.ObservableModel;
-using System.Threading.Tasks;
-using TMDbLib.Client;
-using TMDbLib.Objects.Authentication;
+﻿using KatalogFilm.ViewModel.ObservableModel;
 
 namespace KatalogFilm.ViewModel
 {
@@ -11,28 +7,28 @@ namespace KatalogFilm.ViewModel
         public AccountViewModel()
         {
             // get session
-            _apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            _sessionID = RWJson.ReadFromJSON("session-id", "session.json");
-            _client = new TMDbClient(_apiKey);
-            _client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
+            //_apiKey = RWJson.ReadFromJSON("api-key", "api.json");
+            //_sessionID = RWJson.ReadFromJSON("session-id", "session.json");
+            //_client = new TMDbClient(_apiKey);
+            //_client.SetSessionInformationAsync(_sessionID, SessionType.UserSession);
             AccountObservable = new AccountObservable();
-            _ = GetAccountDetails();
+            GetAccountDetails();
         }
 
-        private TMDbClient _client;
-        private readonly string _apiKey;
-        private readonly string _sessionID;
+        //private TMDbClient _client;
+        //private readonly string _apiKey;
+        //private readonly string _sessionID;
         private AccountObservable _accountObservable;
 
-        public TMDbClient Client
-        {
-            get => _client;
-            set
-            {
-                _client.Dispose();
-                _client = value;
-            }
-        }
+        //public TMDbClient Client
+        //{
+        //    get => _client;
+        //    set
+        //    {
+        //        _client.Dispose();
+        //        _client = value;
+        //    }
+        //}
         public AccountObservable AccountObservable
         {
             get => _accountObservable;
@@ -42,13 +38,13 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(AccountObservable));
             }
         }
-        public async Task GetAccountDetails()
+        public void GetAccountDetails()
         {
-            var accountDetails = await _client.AccountGetDetailsAsync();
-            AccountObservable.Id = accountDetails.Id;
-            AccountObservable.Name = accountDetails.Name;
-            AccountObservable.Username = accountDetails.Username;
-            AccountObservable.IncludeAdult = accountDetails.IncludeAdult == true ? "Dewasa" : "Non Dewasa";
+            //var accountDetails = await _client.AccountGetDetailsAsync();
+            AccountObservable.Id = App.Account.Id;
+            AccountObservable.Name = App.Account.Name;
+            AccountObservable.Username = App.Account.Username;
+            AccountObservable.IncludeAdult = App.Account.IncludeAdult == true ? "Dewasa" : "Non Dewasa";
         }
     }
 }

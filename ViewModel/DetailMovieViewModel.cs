@@ -1,7 +1,5 @@
-﻿using KatalogFilm.ViewModel.Helper;
-using KatalogFilm.ViewModel.ObservableModel;
+﻿using KatalogFilm.ViewModel.ObservableModel;
 using System.Threading.Tasks;
-using TMDbLib.Client;
 
 namespace KatalogFilm.ViewModel
 {
@@ -9,16 +7,16 @@ namespace KatalogFilm.ViewModel
     {
         public DetailMovieViewModel(int id)
         {
-            _apiKey = RWJson.ReadFromJSON("api-key", "api.json");
-            Client = new TMDbClient(_apiKey);
+            //_apiKey = RWJson.ReadFromJSON("api-key", "api.json");
+            //Client = new TMDbClient(_apiKey);
             CurrentMovie = new MovieObservable();
             _ = GetMovie(id);
         }
 
-        private readonly string _apiKey;
+        //private readonly string _apiKey;
         private MovieObservable _currentMovie;
 
-        public TMDbClient Client { get; set; }
+        //public TMDbClient Client { get; set; }
         public MovieObservable CurrentMovie
         {
             get => _currentMovie;
@@ -32,7 +30,7 @@ namespace KatalogFilm.ViewModel
         public async Task GetMovie(int id)
         {
             const string endpoint = "https://image.tmdb.org/t/p/original";
-            var movie = await Client.GetMovieAsync(id);
+            var movie = await App.Client.GetMovieAsync(id);
             CurrentMovie.PosterPath = endpoint + movie.PosterPath;
             CurrentMovie.OriginalTitle = movie.OriginalTitle;
         }

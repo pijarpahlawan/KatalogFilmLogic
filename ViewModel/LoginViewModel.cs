@@ -1,9 +1,8 @@
 ﻿using KatalogFilm.View;
-using KatalogFilm.ViewModel.Helper;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TMDbLib.Client;
+using TMDbLib.Objects.Authentication;
 
 namespace KatalogFilm.ViewModel
 {
@@ -13,7 +12,7 @@ namespace KatalogFilm.ViewModel
         {
             IsLoginVisible = true;
             _loginCommand = new RelayCommand(async param => await Login(), null);
-            RWJson.WriteToJson("api-key", "a39c8049ea4b22d58e5ed78f6f09e62b", "api.json");
+            //RWJson.WriteToJson("api-key", "a39c8049ea4b22d58e5ed78f6f09e62b", "api.json");
         }
 
         private string _username = string.Empty;
@@ -69,18 +68,25 @@ namespace KatalogFilm.ViewModel
 
         public async Task Login()
         {
-            string apiKey = RWJson.ReadFromJSON("api-key", "api.json");
+            //string apiKey = RWJson.ReadFromJSON("api-key", "api.json");
             //login
             try
             {
-                using (var client = new TMDbClient(apiKey))
-                {
-                    var sessionLogin = await client.AuthenticationGetUserSessionAsync(_username, _password);
-                    RWJson.WriteToJson("session-id", sessionLogin.SessionId, "session.json");
-                    var mainWindow = new MainWindow();
-                    mainWindow.DataContext = new MainViewModel();
-                    IsLoginVisible = false;
-                }
+                var sessionLogin = await App.Client.AuthenticationGetUserSessionAsync(_username, _password);
+                await App.Client.SetSessionInformationAsync(sessionLogin.SessionId, SessionType.UserSession);
+                App.Account = App.Client.ActiveAccount;
+                var mainWindow = new MainWindow();
+                mainWindow.DataContext = new MainViewModel();
+                IsLoginVisible = false;
+                //RWJson.WriteToJson("session-id", sessionLogin.SessionId, "session.json");
+                //using (var client = new TMDbClient(apiKey))
+                //{
+                //    var sessionLogin = await client.AuthenticationGetUserSessionAsync(_username, _password);
+                //    RWJson.WriteToJson("session-id", sessionLogin.SessionId, "session.json");
+                //    var mainWindow = new MainWindow();
+                //    mainWindow.DataContext = new MainViewModel();
+                //    IsLoginVisible = false;
+                //}
             }
             catch (Exception)
             {
