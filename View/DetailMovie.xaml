@@ -1,0 +1,20 @@
+﻿<Window x:Class="KatalogFilm.View.DetailMovie"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:KatalogFilm.ViewModel"
+        xmlns:local="clr-namespace:KatalogFilm.View"
+        mc:Ignorable="d"
+        Title="DetailMovie" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Width="100" Height="200" Source="{Binding CurrentMovie.PosterPath}"/>
+        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+            <TextBlock Text="{Binding CurrentMovie.OriginalTitle}"/>
+        </StackPanel>
+    </Grid>
+</Window>

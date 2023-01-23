@@ -1,5 +1,7 @@
 ﻿using KatalogFilm.Model;
+using KatalogFilm.View;
 using KatalogFilm.ViewModel.Helper;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMDbLib.Client;
@@ -102,7 +104,7 @@ namespace KatalogFilm.ViewModel
         {
             get
             {
-                _selectMovieCommand ??= new RelayCommand(param => GetDetailMovie(), null);
+                _selectMovieCommand ??= new RelayCommand(param => GetDetailMovie(param), null);
                 return _selectMovieCommand;
             }
         }
@@ -162,10 +164,11 @@ namespace KatalogFilm.ViewModel
         {
             return CurrentPage > 1;
         }
-        public void GetDetailMovie()
+        public void GetDetailMovie(object id)
         {
-            //var detailMovie = new SelectedMovie();
-            //detailMovie.DataContext = new SelectedMovieViewModel();
+            var detailMovie = new DetailMovie();
+            detailMovie.DataContext = new DetailMovieViewModel(Convert.ToInt32(id));
+            detailMovie.Show();
         }
     }
 }
