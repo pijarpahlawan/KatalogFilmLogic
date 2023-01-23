@@ -1,7 +1,5 @@
-﻿using KatalogFilm.View;
-using KatalogFilm.ViewModel.Helper;
+﻿using KatalogFilm.ViewModel.Helper;
 using KatalogFilm.ViewModel.ObservableModel;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,13 +25,10 @@ namespace KatalogFilm.ViewModel
         //private readonly string _apiKey;
         //private readonly string _sessionID;
         private ObservableCollection<MovieObservable> _searchedMovies;
-        private string? _keywordSearch;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
         private ICommand _previousCommand;
-        private ICommand _selectMovieCommand;
-        private ICommand _searchMovieCommand;
 
 
         //public TMDbClient Client
@@ -63,15 +58,7 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(TotalPage));
             }
         }
-        public string? KeywordSearch
-        {
-            get => _keywordSearch;
-            set
-            {
-                _keywordSearch = value;
-                OnPropertyChanged(nameof(KeywordSearch));
-            }
-        }
+
         public ObservableCollection<MovieObservable> SearchedMovies
         {
             get => _searchedMovies;
@@ -90,29 +77,12 @@ namespace KatalogFilm.ViewModel
                 return _nextCommand;
             }
         }
-        public ICommand PreviousCommand
+        public ICommand PreviousCommand1
         {
             get
             {
                 _previousCommand ??= new RelayCommand(async param => await GoToPreviousPage(), param => CanGoToPreviousPageExecuted());
                 return _previousCommand;
-            }
-        }
-
-        public ICommand SelectMovieCommand
-        {
-            get
-            {
-                _selectMovieCommand ??= new RelayCommand(param => GetDetailMovie(param), null);
-                return _selectMovieCommand;
-            }
-        }
-        public ICommand SearchMovieCommand
-        {
-            get
-            {
-                _searchMovieCommand ??= new RelayCommand(async param => await GetMovies(), null);
-                return _searchMovieCommand;
             }
         }
 
@@ -153,12 +123,6 @@ namespace KatalogFilm.ViewModel
         public bool CanGoToPreviousPageExecuted()
         {
             return CurrentPage > 1;
-        }
-        public void GetDetailMovie(object id)
-        {
-            var detailMovie = new DetailMovie();
-            detailMovie.DataContext = new DetailMovieViewModel(Convert.ToInt32(id));
-            detailMovie.Show();
         }
     }
 }

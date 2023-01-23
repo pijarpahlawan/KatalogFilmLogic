@@ -4,18 +4,18 @@ namespace KatalogFilm.ViewModel.ObservableModel
 {
     public class AccountObservable : ViewModelBase
     {
+        private Avatar? _avatar;
         private int _id;
         private string _name = string.Empty;
         private string _username = string.Empty;
         private string _includeAdult = string.Empty;
-        private string _avatarUrl = string.Empty;
 
-        public string AvatarUrl
+        public Avatar? Avatar
         {
-            get => _avatarUrl;
+            get => _avatar;
             set
             {
-                _avatarUrl = value;
+                _avatar = value;
                 OnPropertyChanged(nameof(Avatar));
             }
         }

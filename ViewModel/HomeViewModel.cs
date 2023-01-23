@@ -27,8 +27,8 @@ namespace KatalogFilm.ViewModel
         //private TMDbClient _client;
         //private readonly string _apiKey;
         //private readonly string _sessionID;
-        private ObservableCollection<MovieObservable> _searchedMovies;
         private string? _keywordSearch;
+        private ObservableCollection<MovieObservable> _searchedMovies;
         private int _currentPage;
         private int _totalPage;
         private ICommand _nextCommand;
