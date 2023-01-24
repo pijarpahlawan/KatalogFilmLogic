@@ -13,16 +13,22 @@ namespace KatalogFilm.ViewModel
         {
             IsLoginVisible = true;
             _loginCommand = new RelayCommand(async param => await Login(), null);
+            _mainWindow = new MainWindow();
+            _mainViewModel = new MainViewModel(this);
+            _mainWindow.DataContext = _mainViewModel;
         }
 
+        private readonly MainWindow _mainWindow;
+        private readonly MainViewModel _mainViewModel;
         private string _username = string.Empty;
         private string _password = string.Empty;
-        private bool _isLoginVisible;
+        private object _isLoginVisible;
+        //private object _isMainVisible;
         private string _errorMessage = string.Empty;
         private ICommand _loginCommand;
 
         // property yang menentukan visibilitas login window
-        public bool IsLoginVisible
+        public object IsLoginVisible
         {
             get => _isLoginVisible;
             set
@@ -31,6 +37,16 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(IsLoginVisible));
             }
         }
+        // property yang menentukan visibilitas main window
+        //public object IsMainVisible
+        //{
+        //    get => _isMainVisible;
+        //    set
+        //    {
+        //        _isMainVisible = value;
+        //        OnPropertyChanged(nameof(IsMainVisible));
+        //    }
+        //}
         // menampung inputan username
         public string Username
         {
@@ -71,6 +87,7 @@ namespace KatalogFilm.ViewModel
             }
         }
 
+
         // fungsi untuk melakukan login
         public async Task Login()
         {
@@ -82,10 +99,8 @@ namespace KatalogFilm.ViewModel
                 await App.Client.SetSessionInformationAsync(sessionLogin.SessionId, SessionType.UserSession);
                 // mendapatkan account saat ini
                 App.Account = App.Client.ActiveAccount;
-                // membuka main window
-                var mainWindow = new MainWindow();
-                mainWindow.DataContext = new MainViewModel();
                 IsLoginVisible = false;
+                _mainViewModel.IsMainVisible = true;
             }
             catch (Exception)
             {

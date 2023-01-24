@@ -5,7 +5,7 @@ namespace KatalogFilm.ViewModel
     // view model untuk main
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
+        public MainViewModel(object loginViewModel)
         {
             HomeCommand = new RelayCommand(Home, null);
             MyFavoriteCommand = new RelayCommand(MyFavorite, null);
@@ -14,11 +14,16 @@ namespace KatalogFilm.ViewModel
 
             //start page
             CurrentView = new HomeViewModel();
-            IsMainVisible = true;
+            IsMainVisible = false;
+
+            _currentLoginViewModel = loginViewModel as LoginViewModel;
         }
 
-        private bool _isMainVisible;
+        private readonly LoginViewModel _currentLoginViewModel;
+        private object _isMainVisible;
+        //private object _isLoginVisible;
         private object _currentView;
+        private ICommand _logoutCommand;
 
         // page saat ini
         public object CurrentView
@@ -27,7 +32,7 @@ namespace KatalogFilm.ViewModel
             set { _currentView = value; OnPropertyChanged(nameof(CurrentView)); }
         }
         // menentukan visibilitas main window
-        public bool IsMainVisible
+        public object IsMainVisible
         {
             get => _isMainVisible;
             set
@@ -36,12 +41,30 @@ namespace KatalogFilm.ViewModel
                 OnPropertyChanged(nameof(IsMainVisible));
             }
         }
+        // menentukan visibilitas login window
+        //public object IsLoginVisible
+        //{
+        //    get => _isLoginVisible;
+        //    set
+        //    {
+        //        _isLoginVisible = value;
+        //        OnPropertyChanged(nameof(IsLoginVisible));
+        //    }
+        //}
 
         // perintah di navbar
         public ICommand HomeCommand { get; set; }
         public ICommand MyFavoriteCommand { get; set; }
         public ICommand AccountCommand { get; set; }
         public ICommand LoginCommand { get; set; }
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                _logoutCommand ??= new RelayCommand(param => Logout(), null);
+                return _logoutCommand;
+            }
+        }
 
         // fungsi untuk perpindahan page di navbar
         private void Home(object obj) => CurrentView = new HomeViewModel();
@@ -49,5 +72,11 @@ namespace KatalogFilm.ViewModel
         private void Account(object obj) => CurrentView = new AccountViewModel();
         private void Login(object obj) => CurrentView = new LoginViewModel();
 
+        public void Logout()
+        {
+            App.Client.Dispose();
+            IsMainVisible = false;
+            _currentLoginViewModel.IsLoginVisible = true;
+        }
     }
 }

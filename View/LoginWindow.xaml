@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Login" Height="600" Width="900">
-    
+
     <Window.DataContext>
         <vm:LoginViewModel/>
     </Window.DataContext>
@@ -19,7 +19,7 @@
     <Window.Visibility>
         <Binding Path="IsLoginVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibilityConverter}"/>
     </Window.Visibility>
-    
+
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
@@ -27,8 +27,7 @@
                 <GradientStop Color="#fffe8704" Offset="0"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Border Height="530" VerticalAlignment="Top" CornerRadius="0 0 180 0" Background="#191930">
-        </Border>
+        <Border Height="530" VerticalAlignment="Top" CornerRadius="0 0 180 0" Background="#191930"/>
         <StackPanel Orientation="Horizontal">
             <StackPanel Width="330">
                 <Image Source="..\Image\pngwing.com (1).png"
@@ -56,50 +55,24 @@
                                  VerticalAlignment="Center" Width="300" BorderBrush="White" Text="{Binding Password}"
                                  x:Name="txtpassword"/>
                     </StackPanel>
-                    <StackPanel Margin="100" HorizontalAlignment="Center">
-                        <!--Button untuk login-->
-                        <Grid>
-                            <Grid.Resources>
-                                <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
-                            </Grid.Resources>
-                            <Button Content="Login" FontWeight="Bold" ToolTip="Login" x:Name="btnLogin" Margin="61,0,-61,0" Command="{Binding LoginCommand}"/>
-                        </Grid>
+                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding ErrorMessage}" 
+                                   Foreground="Red"
+                                   HorizontalAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Width="200"
+                                   Margin="0,0,50,0"/>
+                        <Button Width="100"
+                                Content="Login" 
+                                FontWeight="Bold" 
+                                ToolTip="Login" 
+                                x:Name="btnLogin" 
+                                Margin="0,0,0,0"
+                                HorizontalAlignment="Right"
+                                Command="{Binding LoginCommand}"/>
                     </StackPanel>
-                    <TextBlock Text="{Binding ErrorMessage}" Margin="5" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
-    <!--
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" BorderBrush="Gray"/>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
-            <TextBlock Text="Username" Margin="5"/>
-            <TextBox Text="{Binding Username}" Margin="5"/>
-            <TextBlock Text="Password" Margin="5"/>
-            <TextBox Text="{Binding Password}" Margin="5"/>
-                <Button Content="Login" Padding="1" HorizontalAlignment="Right" Margin="3,3,3,3" Command="{Binding LoginCommand}"/>
-        </StackPanel>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-        </Grid>
-    </Grid>
-    -->
 </Window>
