@@ -1,4 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace KatalogFilm.ViewModel.ObservableModel
 {
@@ -11,6 +13,8 @@ namespace KatalogFilm.ViewModel.ObservableModel
         private string _originalTitle = string.Empty;
         private string _overview = string.Empty;
         private string _posterPath = string.Empty;
+        private ObservableCollection<string> _genres = new ObservableCollection<string>();
+        private DateTime? _releaseDate;
         private ImageBrush? _poster;
         public bool Adult
         {
@@ -73,6 +77,26 @@ namespace KatalogFilm.ViewModel.ObservableModel
             {
                 _poster = value;
                 OnPropertyChanged(nameof(Poster));
+            }
+        }
+
+        public ObservableCollection<string> Genres
+        {
+            get => _genres;
+            set
+            {
+                _genres = value;
+                OnPropertyChanged(nameof(Genres));
+            }
+        }
+
+        public DateTime? ReleaseDate
+        {
+            get => _releaseDate;
+            set
+            {
+                _releaseDate = value;
+                OnPropertyChanged(nameof(ReleaseDate));
             }
         }
     }

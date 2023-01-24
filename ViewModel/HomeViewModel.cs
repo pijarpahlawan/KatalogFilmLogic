@@ -139,7 +139,7 @@ namespace KatalogFilm.ViewModel
                     OriginalLanguage = item.OriginalLanguage,
                     Overview = item.Overview,
                     PosterPath = endpoint + item.PosterPath,
-                    Poster = ImageBrushConverter.PathToImageBrush(endpoint + item.PosterPath)
+                    Poster = Converter.PathToImageBrush(endpoint + item.PosterPath)
                 });
             }
         }
