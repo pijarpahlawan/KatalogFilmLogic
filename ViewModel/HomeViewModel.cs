@@ -3,6 +3,7 @@ using KatalogFilm.ViewModel.Helper;
 using KatalogFilm.ViewModel.ObservableModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TMDbLib.Objects.General;
@@ -15,7 +16,7 @@ namespace KatalogFilm.ViewModel
     {
         public HomeViewModel()
         {
-            CurrentPage = 0;
+            CurrentPage = 1;
             SearchedMovies = new ObservableCollection<MovieObservable>();
             _ = GetMovies();
         }
@@ -117,7 +118,7 @@ namespace KatalogFilm.ViewModel
             // apabila tidak dilakukan pencarian, maka mendapatkan movie top rated
             if (string.IsNullOrEmpty(KeywordSearch) || string.IsNullOrWhiteSpace(KeywordSearch))
             {
-                movies = await App.Client.GetMovieTopRatedListAsync(page: CurrentPage);
+                movies = await App.Client.GetMoviePopularListAsync(page: CurrentPage);
             }
             // apabila dilakukan pencarian maka mendapatkan daftar movie sesuai keyword
             else
