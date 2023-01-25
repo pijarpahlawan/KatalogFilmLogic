@@ -11,8 +11,8 @@ namespace KatalogFilm.ViewModel
     {
         public LoginViewModel()
         {
-            IsLoginVisible = true;
-            _loginCommand = new RelayCommand(async param => await Login(), null);
+            _isLoginVisible = true;
+            _loginCommand = new RelayCommand(async param => await Login());
             _mainWindow = new MainWindow();
             _mainViewModel = new MainViewModel(this);
             _mainWindow.DataContext = _mainViewModel;
@@ -72,7 +72,7 @@ namespace KatalogFilm.ViewModel
         {
             get
             {
-                _loginCommand ??= new RelayCommand(async param => await Login(), null);
+                _loginCommand ??= new RelayCommand(async param => await Login());
                 return _loginCommand;
             }
         }

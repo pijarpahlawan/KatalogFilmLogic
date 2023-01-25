@@ -1,6 +1,7 @@
 ﻿using KatalogFilm.ViewModel.Helper;
 using KatalogFilm.ViewModel.ObservableModel;
 using System.Threading.Tasks;
+using TMDbLib.Objects.Movies;
 
 namespace KatalogFilm.ViewModel
 {
@@ -9,7 +10,7 @@ namespace KatalogFilm.ViewModel
     {
         public DetailMovieViewModel(int id)
         {
-            CurrentMovie = new MovieObservable();
+            _currentMovie = new MovieObservable();
             _ = GetMovie(id);
         }
 
@@ -29,15 +30,8 @@ namespace KatalogFilm.ViewModel
         // mendapatkan detail movie saat ini
         public async Task GetMovie(int id)
         {
-            const string endpoint = "https://image.tmdb.org/t/p/original";
-            var movie = await App.Client.GetMovieAsync(id);
-            CurrentMovie.Id = movie.Id;
-            CurrentMovie.Adult = movie.Adult;
-            CurrentMovie.OriginalTitle = movie.OriginalTitle;
-            CurrentMovie.OriginalLanguage = movie.OriginalLanguage;
-            CurrentMovie.Overview = movie.Overview;
-            CurrentMovie.PosterPath = endpoint + movie.PosterPath;
-            CurrentMovie.Poster = ImageBrushConverter.PathToImageBrush(endpoint + movie.PosterPath);
+            var movie = await App.Client.GetMovieAsync(id, extraMethods: (MovieMethods)int.MaxValue);
+            CurrentMovie = movie.ToMovieObservable();
         }
     }
 }

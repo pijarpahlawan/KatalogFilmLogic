@@ -7,10 +7,10 @@ namespace KatalogFilm.ViewModel
     {
         public MainViewModel(object loginViewModel)
         {
-            HomeCommand = new RelayCommand(Home, null);
-            MyFavoriteCommand = new RelayCommand(MyFavorite, null);
-            AccountCommand = new RelayCommand(Account, null);
-            LoginCommand = new RelayCommand(Login, null);
+            HomeCommand = new RelayCommand(Home);
+            MyFavoriteCommand = new RelayCommand(MyFavorite);
+            AccountCommand = new RelayCommand(Account);
+            LoginCommand = new RelayCommand(Login);
 
             //start page
             CurrentView = new HomeViewModel();
@@ -74,7 +74,6 @@ namespace KatalogFilm.ViewModel
 
         public void Logout()
         {
-            App.Client.Dispose();
             IsMainVisible = false;
             _currentLoginViewModel.IsLoginVisible = true;
         }
